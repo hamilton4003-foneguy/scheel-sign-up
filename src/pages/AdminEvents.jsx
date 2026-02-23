@@ -1,3 +1,5 @@
+// AdminEvents.jsx
+
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 
@@ -102,11 +104,14 @@ const downloadRoster = (event) => {
   const headers = ["Child Name", "Shirt Size", "Registration Date"];
   
   // 2. Map the data into rows
-  const rows = event.registrations.map(reg => [
-    reg.dependents?.name,
-    reg.dependents?.shirt_size,
-    new Date(event.created_at).toLocaleDateString()
-  ]);
+const rows = event.registrations.map(reg => [
+  reg.dependents?.name,
+  reg.dependents?.shirt_size,
+  reg.dependents?.grade,  // New
+  reg.dependents?.school, // New
+  reg.dependents?.notes,  // New (Great for allergies!)
+  new Date(event.created_at).toLocaleDateString()
+]);
 
   // 3. Combine into a single string
   const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");

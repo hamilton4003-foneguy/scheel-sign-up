@@ -1,6 +1,10 @@
+// App.jsx
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { supabase } from './lib/supabaseClient';
 import Dashboard from './pages/Dashboard';
 import AdminEvents from './pages/AdminEvents';
+import Login from './pages/Login';
 
 // ... other imports
 import SignUp from './pages/SignUp';
@@ -8,6 +12,20 @@ import SignUp from './pages/SignUp';
 // new committ 10:12pm
 
 function App() {
+
+
+useEffect(() => {
+    // This tells Supabase to watch for the login "event" when the URL changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Auth Event:", event);
+      if (event === 'SIGNED_IN') {
+        console.log("User session established!");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <Router>
       <nav className="bg-white shadow-md p-4 flex justify-center gap-8 mb-6">
@@ -18,8 +36,10 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/admin" element={<AdminEvents />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );
