@@ -5,7 +5,7 @@ import AdminEvents from './pages/AdminEvents';
 // ... other imports
 import SignUp from './pages/SignUp';
 
-// new committ 9:12pm
+// new committ 10:12pm
 
 function App() {
   return (
